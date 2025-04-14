@@ -28,4 +28,12 @@ public class Coin : MonoBehaviour, ICollectable
 
         Destroy(gameObject);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.TryGetComponent<ICollectable>(out ICollectable item))
+        {
+            item.Collect();
+        }
+    }
 }

@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class InterFade : MonoBehaviour
 {
-    [SerializeField] private CanvasGroup _fadeCanvasGroup;
+    [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private float _fadeSpeed = 1f;
     
-    private bool _isOpen = false;
+    private bool _isShown = false;
 
     private void Start()
     {
@@ -15,20 +15,20 @@ public class InterFade : MonoBehaviour
 
     private void ToggleUI()
     {
-        _isOpen = !_isOpen;
+        _isShown = !_isShown;
 
-        StartCoroutine(Faded(_isOpen));
+        StartCoroutine(Faded(_isShown));
     }
 
-    IEnumerator Faded(bool isOpen)
+    IEnumerator Fade(bool _isShown)
     {
-        float alpha = isOpen ? 0f : 1f;
-        if(isOpen) // == true
+        float alpha = _isShown ? 0f : 1f;
+        if(_isShown) // == true
         {
             while(alpha < 1f)
             {
                 alpha += _fadeSpeed * Time.deltaTime;
-                _fadeCanvasGroup.alpha = alpha;
+                _canvasGroup.alpha = alpha;
                 yield return null;
             }
         }
@@ -43,5 +43,13 @@ public class InterFade : MonoBehaviour
         }
         yield return new WaitForSeconds(0.5f);
         Debug.Log("Hello World");
+    }
+
+    [ContextMenu("Toggle UI")]
+    public void ToggleUI()
+    {
+        _isShown = !_isShown;
+
+        StartCoroutine(Fade());
     }
 }
