@@ -1,9 +1,16 @@
+using PrimeTween;
 using UnityEngine;
+using NaughtyAttributes;
 
 public class Coin : MonoBehaviour, ICollectable
 {
     [SerializeField] private int price = 5;
 
+
+    private void Update()
+    {
+        transform.rotation *= Quaternion.Euler(0, 1, 0);
+    }
     void PrintMessage(int i)
     {
         Debug.Log($"{name} knows that money is {i} | {transform.rotation}");
@@ -14,7 +21,12 @@ public class Coin : MonoBehaviour, ICollectable
     void OnEnable()
     {
         GameManager.Instance.OnMoneyChanged.AddListener(PrintMessage);
-        //ถ้าเงินเปลี่ยนแปลง ให้เรียกใช้ PrintMessage    
+        
+        
+        Tween.PositionY(transform, transform.position.y + 0.25f, 1f,cycles: 9999, CycleMode.Yoyo);
+
+        
+
     }
 
     void OnDisable()
@@ -35,5 +47,11 @@ public class Coin : MonoBehaviour, ICollectable
         {
             item.Collect();
         }
+    }
+
+    [Button("RotQT")]
+    public void Quaternion_Identity()
+    {
+        transform.rotation = Quaternion.identity;
     }
 }

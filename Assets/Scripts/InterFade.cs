@@ -3,33 +3,35 @@ using UnityEngine;
 
 public class InterFade : MonoBehaviour
 {
-    [SerializeField] private CanvasGroup _canvasGroup;
+    [SerializeField] private CanvasGroup _FadeCanvasGroup;
     [SerializeField] private float _fadeSpeed = 1f;
     
-    private bool _isShown = false;
+    private bool _isOpen = false;
 
-    private void Start()
+    
+    /*private void Start()
     {
-        PlayerController.Instance._input.Player.ToggleUI.performed += _ => ToggleUI();
-    }
-
+        //PlayerController.Instance._input.Player.ToggleUI.performed += _ => ToggleUI()
+    }*/
+    [ContextMenu("Toggle UI")]
     private void ToggleUI()
     {
-        _isShown = !_isShown;
+        _isOpen = !_isOpen;
 
-        StartCoroutine(Faded(_isShown));
+        StartCoroutine(Faded(_isOpen));
     }
 
-    IEnumerator Fade(bool _isShown)
+    IEnumerator Faded(bool _isOpen)
     {
-        float alpha = _isShown ? 0f : 1f;
-        if(_isShown) // == true
+        float alpha = _isOpen ? 0f : 1f;
+        if(_isOpen) // == true
         {
             while(alpha < 1f)
             {
                 alpha += _fadeSpeed * Time.deltaTime;
-                _canvasGroup.alpha = alpha;
+                _FadeCanvasGroup.alpha = alpha;
                 yield return null;
+                // yield my flesh, to calm there bone
             }
         }
         else
@@ -37,7 +39,7 @@ public class InterFade : MonoBehaviour
             while(alpha > 0f)
             {
                 alpha -= _fadeSpeed * Time.deltaTime;
-                _fadeCanvasGroup.alpha = alpha;
+                _FadeCanvasGroup.alpha = alpha;
                 yield return null;
             }
         }
@@ -45,11 +47,11 @@ public class InterFade : MonoBehaviour
         Debug.Log("Hello World");
     }
 
-    [ContextMenu("Toggle UI")]
+    /*[ContextMenu("Toggle UI")]
     public void ToggleUI()
     {
-        _isShown = !_isShown;
+        _isOpen = !_isOpen;
 
-        StartCoroutine(Fade());
-    }
+        StartCoroutine(Faded());
+    }*/
 }
